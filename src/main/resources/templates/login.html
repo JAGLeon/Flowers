@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.orq" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace= "/fragments/head :: head"> </head>
+
+    <body>
+
+        <nav th:replace = "/fragments/nav :: nav"> </nav>
+
+        <main class="mainIndex">
+            <div th:if="${error != null}" class="card text-white bg-danger mb-3 mensajeError" >
+                <div class="card-body">
+                    <h5 class="card-title">Error!</h5>
+                    <p class="card-text" th:text="${error}"></p>
+                </div>
+            </div>
+            <form  class="col-sm-3 col-md-6 col-lg-4" th:action="@{/logincheck}" method="POST">
+                <div class="form-floating mb-3">
+                    <input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                    <label for="floatingInput">Email</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+                    <label for="floatingPassword">Contraseña</label>
+                </div>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button class="btn btn-primary" type="submit">Ingresar</button>
+                </div>
+            </form>
+        </main>
+        <footer>
+            <div class="descriptionContainer">
+                <h6>¿Quienes somos?</h6>
+                <img src="iconNav.png" alt="Icono Footer">
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam eius laudantium mollitia nam rem sit
+                    quas illum ipsa aliquid nisi necessitatibus dolore blanditiis ex, natus hic non numquam perferendis
+                    odit.
+                </p>
+            </div>
+            <div class="imformationContainer">
+                <h6>Comunicacion</h6>
+                <ul>
+                    <li>Dirección</li>
+                    <li>Telefóno</li>
+                    <li><a href="#">Email</a></li>
+                </ul>
+            </div>
+            <div class="socialContainer">
+                <h6>Redes Sociales</h6>
+                <ul>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Facebook</a></li>
+                </ul>
+            </div>
+        </footer>
+        <script th:replace = "/fragments/scriptBt :: script" ></script>
+
+    </body>
+
+</html>
