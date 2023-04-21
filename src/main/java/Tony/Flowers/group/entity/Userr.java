@@ -8,6 +8,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -27,7 +28,26 @@ public class Userr {
     @Temporal(TemporalType.DATE)
     public Date upUser;
 
+    @OneToOne
+    public Image icon;
+    
     public Userr() {
+    }
+
+    public Date getUpUser() {
+        return upUser;
+    }
+
+    public void setUpUser(Date upUser) {
+        this.upUser = upUser;
+    }
+
+    public Image getIcon() {
+        return icon;
+    }
+
+    public void setIcon(Image icon) {
+        this.icon = icon;
     }
 
     public Long getId() {
@@ -69,16 +89,5 @@ public class Userr {
     public void setRol(Rol rol) {
         this.rol = rol;
     }
-
-    public Date getUp() {
-        return upUser;
-    }
-
-    public void setUp(Date upUser) {
-        this.upUser = upUser;
-    }
-    
-    
-    
 
 }

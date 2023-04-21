@@ -41,7 +41,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                     .defaultSuccessUrl("/")
                     .permitAll()
                 .and().logout()
-                    .logoutUrl("logout")
+                    .logoutUrl("/logout")
                     .logoutSuccessUrl("/")
                     .permitAll()
                 .and().csrf()

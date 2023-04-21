@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/")
@@ -37,19 +38,19 @@ public class UserController {
 
         return "index.html";
     }
-
+    
     @GetMapping("/register")
     public String register(ModelMap model) {
         model.put("title", "Flowers | Registro");
 
-        return "register.html";
+        return "index.html";
     }
 
     @PostMapping("/registered")
-    public String registered(@RequestParam String email, @RequestParam String password, @RequestParam String password2, @RequestParam String name, ModelMap model) {
+    public String registered(MultipartFile archive,@RequestParam String email, @RequestParam String password, @RequestParam String password2, @RequestParam String name, ModelMap model) {
 
         try {
-            userService.createUser(email, password, password2, name);
+            userService.createUser(archive, email, password, password2, name);
 
             model.put("success", "Usuario registrado correctamente");
             model.put("title", "Flowers | Inicio");
@@ -61,7 +62,7 @@ public class UserController {
             model.put("email", ex.getMessage());
             model.put("password", ex.getMessage());
 
-            return "register.html";
+            return "index.html";
         }
 
     }
@@ -72,7 +73,7 @@ public class UserController {
         if (error != null) {
             model.put("error", "Usuario o contraseña invalidos");
         }
-        return "login.html";
+        return "index.html";
     }
 
 }

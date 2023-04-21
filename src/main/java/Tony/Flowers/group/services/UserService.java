@@ -21,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UserService implements UserDetailsService{
@@ -29,7 +30,7 @@ public class UserService implements UserDetailsService{
     private UserRepository userRepository;
 
     @Transactional
-    public void createUser(String email, String password, String password2, String name) throws MiException {
+    public void createUser(MultipartFile archive, String email, String password, String password2, String name) throws MiException {
 
         validations(email, password, password2, name);
 
@@ -39,13 +40,13 @@ public class UserService implements UserDetailsService{
         userCreate.setPassword(new BCryptPasswordEncoder().encode(password));
         userCreate.setName(name);
         userCreate.setRol(Rol.USER);
-        userCreate.setUp(new Date());
+        userCreate.setUpUser(new Date());
 
         userRepository.save(userCreate);
     }
 
     @Transactional
-    public void updateUser(Long id, String email, String password, String password2, String name) throws MiException {
+    public void updateUser(MultipartFile archive, Long id, String email, String password, String password2, String name) throws MiException {
 
         validations(email, password, password2, name);
 
@@ -59,7 +60,7 @@ public class UserService implements UserDetailsService{
             user.setPassword(new BCryptPasswordEncoder().encode(password));
             user.setName(name);
             user.setRol(Rol.USER);
-            user.setUp(new Date());
+            user.setUpUser(new Date());
 
             userRepository.save(user);
         }

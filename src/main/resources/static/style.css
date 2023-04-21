@@ -1,162 +1,378 @@
 *{
     margin: 0;
     padding: 0;
-    font-family: 'Roboto';
     box-sizing: border-box;
+    font-family: sans-serif;
 }
 
-p{
-    margin: 0;
+body{
+
+    background: url('background.jpg') no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 
-ul{
-    list-style: none;
-    margin: 0;
-}
-
-.mainIndex{
+header {
+    position: fixed;
+    top:0;
+    left: 0;
     width: 100%;
-    height: 100vh;
-    padding-top:  6rem;
-    background-color: rgb(63,72,204);
+    padding: 20px 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 99
+}
+
+.logo{
+    font-size: 2em;
+    color: #fff;
+    user-select: none;
+}
+
+.navigation a{
+    position: relative;
+    font-size: 1.1em;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 40px;
+}
+
+.navigation a::after{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background: #fff;
+    border-radius: 5px;
+    left: 0;
+    bottom: -6px;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform .5s;
+}
+
+.navigation a:hover::after{
+    transform-origin: left;
+    transform: scaleX(1);    
+}
+
+.navigation .btnLogin-popUp{
+    width: 130px;
+    height: 50px;
+    background: transparent;
+    border: 2px solid #fff;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    color: #fff;
+    font-weight: 500;
+    margin-left: 40px;
+}
+
+.navigation .btnLogin-popUp:hover{
+    background: #fff;
+    color: #162938;
+}
+
+.btnUser-popUp:hover + .ulUser-popUp{
+    display: block;
+}
+
+.ulUser-popUp:hover{
+    display: block;
+}
+
+.ulUser-popUp {
+    top: 65%;
+    left: 82%;
+    margin-top: 0px;
+    position: absolute;
+    transition: .3s ease;
+    display: none;
+}
+
+.ulUser-popUp li{
+    width: 130px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ulUser-popUp li a{
+    margin-left: 0;
+}
+
+
+
+/*MAIN*/
+
+main{
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    height: 100vh;
+    min-height: 100vh;
 }
 
+.cardMsjError{
+    width: 200px;
+    height: 125px;    
+    border-radius: 20px;
+    overflow: hidden;
+}
 
-
-
-/*NAV*/
-
-
-
-nav.navbar{
-    position: fixed;
+.cardMsjError div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 8, 8,.5);
+    color: white;
     width: 100%;
-    z-index: 100;
-    background-color: rgb(63,72,204);
-    font-weight: 900;
-    border-bottom: 2px solid white;
+    height: 100%;
+    flex-direction: column;
+    text-align: center;
+    font-size: 1.2em;
+    border: none; 
+    box-shadow: 0 0 30px red inset;
 }
 
-.navbar-light .navbar-nav .nav-link{
-    color: white;
+.cardMsjSuccess{
+    width: 200px;
+    height: 125px;    
+    border-radius: 20px;
+    overflow: hidden;
 }
 
-nav.navbar a.navbar-brand{
+.cardMsjSuccess div{
     display: flex;
+    justify-content: center;
     align-items: center;
-}
-
-nav.navbar a.navbar-brand img{
-    width: 50%;
-    height: 60%;
-}
-
-nav.navbar a.navbar-brand p{
-    font-weight: 900;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background: rgba(0, 255, 42,.5);
     color: white;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    text-align: center;
+    font-size: 1.2em;
+    border: none; 
+    box-shadow: 0 0 30px red inset;
 }
 
-
-/*SWITCH*/
-
-.liSwitch{
-    margin-left: 5px;
-    display: flex;
-    align-items: center;
-}
-
-.switch {
+.wrapper{
+    margin-top: 4em;
     position: relative;
-    display: inline-block;
-    width: 46px;
-    height: 24px;
+    width: 400px;
+    height: 440px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255,.5);
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 30px rgba(0,0,0, .5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transform: scale(0);
+    transition: transform .5s ease, height .2s ease;
 }
 
-.switch input { 
-    opacity: 0;
-    width: 0;
-    height: 0;
+.wrapper.activePopUp{
+    transform: scale(1);
 }
-  
-.slider {
+
+.wrapper.active{
+    height: 540px;
+}
+
+.wrapper .formBox{
+    width: 100%;
+    padding: 40px;
+}
+
+.wrapper .formBox.login{
+    transition: transform .18s ease;
+    transform:  translateX(0);
+}
+
+
+.wrapper.active .formBox.login{
+    transition: none;
+    transform: translateX(-400px);
+}
+
+.wrapper .formBox.register{
     position: absolute;
-    cursor: pointer;
+    transition: none;
+    transform: translateX(400px);
+}
+
+.wrapper.active .formBox.register{
+    transition: transform .18s ease;
+    transform:  translateX(0);
+}
+
+.iconClose{
+    position: absolute;
     top: 0;
-    left: 0;
     right: 0;
-    bottom: 0;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-    border-radius: 34px;
+    width: 45px;
+    height: 45px;
+    background: #162938;
+    font-size: 2em;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom-left-radius: 20px;
+    cursor: pointer;
+    z-index: 1;
 }
-  
-.slider:before {
+
+.formBox h2{
+    text-align: center;
+    font-size: 2em;
+    color: #162938;
+}
+
+.inputBox{
+    position: relative;
+    width: 100%;
+    height: 50px;
+    border-bottom: 2px solid #162938;
+    margin: 30px 0;
+}
+
+.inputBox label{
     position: absolute;
-    content: "";
-    height: 20px;
-    width: 20px;
-    left: 3px;
-    bottom: 2px;
-    background-color: rgb(89, 155, 216);
-    -webkit-transition: .4s;
-    transition: .4s;
-    border-radius: 50%;
-}
-  
-input:checked + .slider {
-    background-color: black;
-}
-  
-input:checked + .slider:before {
-    -webkit-transform: translateX(20px);
-    -ms-transform: translateX(20px);
-    transform: translateX(20px);
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    color: #162938;
+    font-weight: 500;
+    pointer-events: none;
+    transition: .5s;
 }
 
+.inputBox input:focus~label,
+.inputBox input:valid~label{
+    top: -5px;
+}
 
-/*END SWITCH*/
+.inputBox input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    color: #162938;
+    font-weight: 600;
+    padding: 0 35px 0 5px;
+}
+
+.inputBox .icon{
+    position: absolute;
+    right: 8px;
+    font-size: 1.2em;
+    color: #162938;
+    line-height: 57px;
+}
+
+.rememberForgot{
+    font-size: .9em;
+    color: #162938;
+    font-weight: 500;
+    margin: -15px 0 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.rememberForgot label input{
+    accent-color: #162938;
+    margin-right: 3px;
+}
+
+.rememberForgot a{
+    color: #162938;
+    text-decoration: none;
+
+}
+
+.rememberForgot a:hover{
+    text-decoration: underline;
+}
+
+.btnLogin{
+    width: 100%;
+    height: 45px;
+    background-color: #162938;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    color: #fff;
+    font-weight: 500;
+}
+
+.loginRegister{
+    font-size: .9em;
+    color: #162938;
+    text-align: center;
+    font-weight: 500;
+    margin: 25px 0 10px;
+}
+
+.loginRegister p a{
+    color: #162938;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.loginRegister p a:hover{
+    text-decoration: underline;
+}
 
 
-
-/*END NAV*/
 
 
 /*FOOTER*/
 
 footer{
     padding: 10px 10px 0 10px;
-    background-color: rgb(63,72,204);
+    background: transparent;
     color: white;
     border-top: 2px solid;
+    backdrop-filter: blur(10px);
+    min-height: 500px;
 }
 
 .descriptionContainer p{
     padding-left: 32px;
+    line-height: 1.7em;
 }
 
 .descriptionContainer{
     width: 100%;
     height: 190px;
-    margin-bottom: 2rem;
 }
 
 .imformationContainer,
 .socialContainer{
     width: 100%;
     height: 120px;
+    margin-bottom: 2em;
 }
 
 .descriptionContainer h6,
 .imformationContainer h6,
 .socialContainer h6{
-    font-weight: 900;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 600;
+    font-size: 1.1em;
+    color: #fff;
 }
 
 
@@ -165,5 +381,14 @@ footer{
     text-decoration: none;
     color: white;
 }
+
+.imformationContainer ul,
+.socialContainer ul{
+    margin-left: 2em;
+    list-style: none;
+    margin-top: 1.4em;
+    line-height: 1.7em;
+}
+
 
 /*END FOOTER*/
