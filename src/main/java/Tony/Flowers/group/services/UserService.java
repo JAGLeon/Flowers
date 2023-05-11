@@ -1,5 +1,6 @@
 package Tony.Flowers.group.services;
 
+import Tony.Flowers.group.entity.Imagee;
 import Tony.Flowers.group.entity.Userr;
 import Tony.Flowers.group.enums.Rol;
 import Tony.Flowers.group.exceptions.MiException;
@@ -24,10 +25,13 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class UserService implements UserDetailsService{
+public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ImageService imageService;
 
     @Transactional
     public void createUser(MultipartFile archive, String email, String password, String password2, String name) throws MiException {
@@ -42,13 +46,14 @@ public class UserService implements UserDetailsService{
         userCreate.setRol(Rol.USER);
         userCreate.setUpUser(new Date());
 
+        Imagee image = imageService.submitImg(archive);
+        userCreate.setIcon(image);
+
         userRepository.save(userCreate);
     }
 
     @Transactional
-    public void updateUser(MultipartFile archive, Long id, String email, String password, String password2, String name) throws MiException {
-
-        validations(email, password, password2, name);
+    public void updateUser(MultipartFile archive, Long id, String password, String name) throws MiException {
 
         Optional<Userr> findUser = userRepository.findById(id);
 
@@ -56,25 +61,35 @@ public class UserService implements UserDetailsService{
 
             Userr user = findUser.get();
 
-            user.setEmail(email);
-            user.setPassword(new BCryptPasswordEncoder().encode(password));
-            user.setName(name);
-            user.setRol(Rol.USER);
-            user.setUpUser(new Date());
+            if (new BCryptPasswordEncoder().matches(password, user.getPassword())) {
 
-            userRepository.save(user);
+                if (name.isEmpty() || name == null || name.length() <= 2) {
+                    throw new MiException("El nombre no puede estar vacio o ser menor a 2 caracteres");
+                }
+                user.setName(name);
+
+                String idImage = null;
+
+                if (user.getIcon() != null) {
+                    idImage = user.getIcon().getId();
+                }
+
+                Imagee image = imageService.updateImg(archive, idImage);
+                user.setIcon(image);
+
+                userRepository.save(user);
+            }
         }
-
     }
 
     public Userr getOne(Long id) {
         return userRepository.getOne(id);
     }
-    
-    public List<Userr> listUsers(){
+
+    public List<Userr> listUsers() {
         List<Userr> users = new ArrayList();
         users = userRepository.findAll();
-        
+
         return users;
     }
 
@@ -100,23 +115,23 @@ public class UserService implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        
+
         Userr user = userRepository.searchUserEmail(email);
-        
+
         if (user != null) {
-            
+
             List<GrantedAuthority> permissions = new ArrayList();
-            
+
             GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" + user.getRol().toString());
-            
+
             permissions.add(p);
-            
+
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-            
+
             HttpSession session = attr.getRequest().getSession(true);
-            
+
             session.setAttribute("userSession", user);
-            
+
             return new User(user.getName(), user.getPassword(), permissions);
 
         } else {

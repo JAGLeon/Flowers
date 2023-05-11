@@ -1,0 +1,17 @@
+<header>
+    <h2 class="logo">Flowers</h2>
+    <nav class="navigation">
+        <a th:href="@{/}" th:if="${session.userSession != null}">Inicio</a>
+        <a href="#">Nosotros</a>
+        <a href="#">Contacto</a>                
+        <a class="btnUser-popUp" th:if="${session.userSession != null}" th:text="${session.userSession.name}"></a>
+        <ul class="ulUser-popUp">
+            <li><a th:href="@{/profile}">Perfil</a></li>
+            <li><a th:href="@{/logout}">Salir</a></li>
+        </ul>
+        <img class="iconUser" th:if="${session.userSession != null && session.userSession.icon != undefined}" th:src="@{/image/profile/__${session.userSession.id}__}" >
+        <a  th:if="${session.userSession == null}" class="btnRegister-popUp">Resgistrar</a>
+        <button th:if="${session.userSession == null}" class="btnLogin-popUp">Login</button>
+    </nav>
+</header>
+

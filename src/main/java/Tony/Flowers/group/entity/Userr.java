@@ -29,7 +29,7 @@ public class Userr {
     public Date upUser;
 
     @OneToOne
-    public Image icon;
+    public Imagee icon;
     
     public Userr() {
     }
@@ -42,11 +42,11 @@ public class Userr {
         this.upUser = upUser;
     }
 
-    public Image getIcon() {
+    public Imagee getIcon() {
         return icon;
     }
 
-    public void setIcon(Image icon) {
+    public void setIcon(Imagee icon) {
         this.icon = icon;
     }
 

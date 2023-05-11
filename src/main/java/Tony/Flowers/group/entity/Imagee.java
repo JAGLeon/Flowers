@@ -9,24 +9,24 @@ import javax.persistence.Lob;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-class Image {
+public class Imagee {
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id;
+    public String id;
 
-    private String mime;
+    public String mime;
 
-    private String nombre;
+    public String name;
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    private byte[] contenido;
+    public byte[] container;
 
-    public Image() {
+    public Imagee() {
     }
-
+    
     public String getId() {
         return id;
     }
@@ -43,22 +43,20 @@ class Image {
         this.mime = mime;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public byte[] getContenido() {
-        return contenido;
+    public byte[] getContainer() {
+        return container;
     }
 
-    public void setContenido(byte[] contenido) {
-        this.contenido = contenido;
+    public void setContainer(byte[] container) {
+        this.container = container;
     }
     
-    
-
 }

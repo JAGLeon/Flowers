@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link href="profile.css" rel="stylesheet" type="text/css"/>
+    </head>
+
+    <body>
+
+        <header th:replace="/fragments/header :: header"></header>
+
+
+        <main>
+
+            <div class="containerImgProfile">
+                <img src="" id="imgUser">
+            </div>
+
+            <div class="wrapper active">
+                <div class="formBox register">
+                    <h2>Perfil</h2>
+                    <form th:action="@{/profile/__${user.id}__}" method="POST" enctype="multipart/form-data">
+                        <div class="inputBox">
+                            <span class="icon"><ion-icon name="person"></ion-icon></span>
+                            <input type="text" name="name" th:value="${user.name}">
+                            <label for="name">Nombre</label>
+                        </div>
+                        <div class="inputBox inputBoxEmail">
+                            <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                            <input type="email" name="email" th:value="${user.email}" disabled>
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="inputBox inputBoxFile">
+                            <span class="icon"><ion-icon name="document"></ion-icon></span>
+                            <input type="file" name="archive" id="iconUser" th:src="@{/image/perfil/__${user.id}__}">
+                            <label for="password2">Subir foto de perfil</label>
+
+                        </div>
+                        <div class="inputBox">
+                            <span class="icon"><ion-icon class="lookIcon" id="lookIcon" name="lock-closed"></ion-icon></span>
+                            <input type="password" name="password" class="inputPass" id="inputPass" required>
+                            <label for="password">Contraseña</label>
+                        </div>
+
+                        <button type="submit" class="btnLogin">Subir cambios</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+        <script src="headerScript.js"></script>
+        <script src="profileScript.js"></script>
+    </body>
+
+</html>

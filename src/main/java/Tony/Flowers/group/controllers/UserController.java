@@ -3,8 +3,6 @@ package Tony.Flowers.group.controllers;
 import Tony.Flowers.group.entity.Userr;
 import Tony.Flowers.group.exceptions.MiException;
 import Tony.Flowers.group.services.UserService;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,12 +31,11 @@ public class UserController {
             model.put("title", "Flowers | Inicio");
             return "redirect:/";
         }
-
         model.put("title", "Flowers | Inicio");
 
         return "index.html";
     }
-    
+
     @GetMapping("/register")
     public String register(ModelMap model) {
         model.put("title", "Flowers | Registro");
@@ -47,14 +44,14 @@ public class UserController {
     }
 
     @PostMapping("/registered")
-    public String registered(MultipartFile archive,@RequestParam String email, @RequestParam String password, @RequestParam String password2, @RequestParam String name, ModelMap model) {
+    public String registered(MultipartFile archive, @RequestParam String email, @RequestParam String password, @RequestParam String password2, @RequestParam String name, ModelMap model) {
 
         try {
             userService.createUser(archive, email, password, password2, name);
 
             model.put("success", "Usuario registrado correctamente");
             model.put("title", "Flowers | Inicio");
-            return "redirect:/";
+            return "redirect:/login";
         } catch (MiException ex) {
 
             model.put("error", ex.getMessage());
@@ -76,4 +73,33 @@ public class UserController {
         return "index.html";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+    @GetMapping("/profile")
+    public String profile(HttpSession session, ModelMap model) {
+        Userr log = (Userr) session.getAttribute("userSession");
+
+        model.put("user", log);
+        model.put("title", "Flowers | Inicio");
+        return "profile.html";
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+    @PostMapping("/profile/{id}")
+    public String update(@PathVariable Long id, @RequestParam MultipartFile archive, @RequestParam String name, @RequestParam String password, ModelMap model) {
+
+        try {
+            
+            userService.updateUser(archive, id, password, name);
+            return "redirect:/profile";
+
+        } catch (MiException ex) {
+
+            model.put("error", ex.getMessage());
+            model.put("name", ex.getMessage());
+            model.put("email", ex.getMessage());
+            model.put("password", ex.getMessage());
+
+            return "profile.html";
+        }
+    }
 }
